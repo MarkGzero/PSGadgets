@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Iot.Device.Bindings.SkiaSharpAdapter</name>
+    </assembly>
+    <members>
+        <member name="T:Iot.Device.Graphics.SkiaSharpAdapter.SkiaSharpAdapter">
+            <summary>
+            Image factory registry helper.
+            </summary>
+        </member>
+        <member name="M:Iot.Device.Graphics.SkiaSharpAdapter.SkiaSharpAdapter.Register">
+            <summary>
+            Registers this factory as the default image factory.
+            Call this method once at startup to use SkiaSharp as image backend.
+            </summary>
+        </member>
+        <member name="T:Iot.Device.Graphics.SkiaSharpAdapter.SkiaSharpGraphicsExtensions">
+            <summary>
+            Contains extension methods that operate on <see cref="T:Iot.Device.Graphics.IGraphics"/>
+            </summary>
+        </member>
+        <member name="M:Iot.Device.Graphics.SkiaSharpAdapter.SkiaSharpGraphicsExtensions.Resize(Iot.Device.Graphics.BitmapImage,System.Drawing.Size)">
+            <summary>
+            Resizes an image. Extension method for SkiaSharp
+            </summary>
+            <param name="image">The image to resize</param>
+            <param name="size">The new size</param>
+            <returns>A new image. The old image is unaffected</returns>
+            <exception cref="T:System.NotSupportedException">The image is not a SkiaSharpBitmap, meaning more than one image connector is in scope</exception>
+        </member>
+        <member name="M:Iot.Device.Graphics.SkiaSharpAdapter.SkiaSharpGraphicsExtensions.DrawText(Iot.Device.Graphics.IGraphics,System.String,System.String,System.Int32,System.Drawing.Color,System.Drawing.Point)">
+            <summary>
+            Draws text to the bitmap
+            </summary>
+        </member>
+        <member name="M:Iot.Device.Graphics.SkiaSharpAdapter.SkiaSharpGraphicsExtensions.DrawImage(Iot.Device.Graphics.IGraphics,Iot.Device.Graphics.BitmapImage,System.Int32,System.Int32)">
+            <summary>
+            Draws another image into this one, at the given position and without scaling
+            </summary>
+            <param name="graphics">The target bitmap</param>
+            <param name="source">The source bitmap</param>
+            <param name="x">The x coordinate of the source bitmap in the resulting target bitmap</param>
+            <param name="y">The y coordinate of the source bitmap in the resulting target bitmap</param>
+        </member>
+        <member name="M:Iot.Device.Graphics.SkiaSharpAdapter.SkiaSharpGraphicsExtensions.DrawImage(Iot.Device.Graphics.IGraphics,Iot.Device.Graphics.BitmapImage,System.Drawing.Rectangle,System.Drawing.Rectangle)">
+            <summary>
+            Draws another image into this one, at the given position and with scaling
+            </summary>
+            <param name="graphics">The target bitmap</param>
+            <param name="source">The source bitmap</param>
+            <param name="sourceRectangle">Rectangle in source image from where to draw</param>
+            <param name="targetRectangle">Rectangle in target image where to draw to</param>
+        </member>
+        <member name="M:Iot.Device.Graphics.SkiaSharpAdapter.SkiaSharpGraphicsExtensions.GetCanvas(Iot.Device.Graphics.IGraphics)">
+            <summary>
+            Get the internal SKCanvas instance, to manually draw to the target bitmap.
+            </summary>
+            <param name="graphics">The reference to the image</param>
+            <returns>An instance that can be used in calls for drawing methods</returns>
+        </member>
+        <member name="T:Iot.Device.Graphics.SkiaSharpAdapter.SkiaSharpImageFactory">
+            <summary>
+            This image factory uses SkiaSharp as backend
+            </summary>
+        </member>
+        <member name="M:Iot.Device.Graphics.SkiaSharpAdapter.SkiaSharpImageFactory.CreateBitmap(System.Int32,System.Int32,Iot.Device.Graphics.PixelFormat)">
+            <inheritdoc />
+        </member>
+        <member name="M:Iot.Device.Graphics.SkiaSharpAdapter.SkiaSharpImageFactory.CreateFromStream(System.IO.Stream)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>
