@@ -1,5 +1,7 @@
 # PowerShell Gadgets
 
+![ps7](./images/frontpage_ps7.png)
+
 ![PowerShell Gadgets](./images/frontpage.jpg)
 
 https://learn.adafruit.com/adafruit-ft232h-breakout?view=all
