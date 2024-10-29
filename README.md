@@ -7,9 +7,14 @@ https://learn.adafruit.com/adafruit-ft232h-breakout?view=all
 
 This project is a proof of concept to demonstrate how to use a FTDI FT232H board to communicate with an ESP32 (ESP32-S3 pictured) board.  
 
+This project requires knowledge of `PowerShell`, `MicroPython`, and `C#` programming languages.  Dont worry, there're plenty of resources available, including "AI".
+
 The FT232H board will be connected to a PC via USB and the ESP32 board will be connected to the FT232H board via serial UART.  
 
 The ESP32 board will be used as an accessory board to handle WiFi/ESP-Now wireless communication with other ESP32 IoT devices.
+
+
+
 
 ### Requirements
 ------------------
