@@ -4,8 +4,6 @@
 
 ![PowerShell Gadgets](./images/frontpage.jpg)
 
-https://learn.adafruit.com/adafruit-ft232h-breakout?view=all
-
 ## Project Overview
 
 This project is a proof of concept to demonstrate how to use a FTDI FT232H board to communicate with an ESP32 (ESP32-S3 pictured) board.  
