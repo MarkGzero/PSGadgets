@@ -7,13 +7,71 @@ https://learn.adafruit.com/adafruit-ft232h-breakout?view=all
 
 This project is a proof of concept to demonstrate how to use a FTDI FT232H board to communicate with an ESP32 (ESP32-S3 pictured) board.  
 
-This project requires knowledge of `PowerShell`, `MicroPython`, and `C#` programming languages.  Dont worry, there're plenty of resources available, including "AI".
+This project requires knowledge of `PowerShell`, `MicroPython`, and `C#` programming languages.  
 
 The FT232H board will be connected to a PC via USB and the ESP32 board will be connected to the FT232H board via serial UART.  
 
 The ESP32 board will be used as an accessory board to handle WiFi/ESP-Now wireless communication with other ESP32 IoT devices.
 
+## Objective
 
+My ultimate objective is to a create a PowerShell-friendly modular physical device ecosystem for a variety of applications. 
+
+Ideally, modules can be easily swapped out and reconfigured to create new devices. 
+
+Code should be easily shared and reused across different devices.
+
+```mermaid
+flowchart LR
+    
+    A[PC/PowerShell]
+    B[Controller/FT232H + ESP32] 
+
+    A <--> B
+    
+    subgraph Input [Sensors]
+        C[Input Temperature Sensor]
+        D[Input Humidity Sensor]
+        E[Input Light Sensor]
+        F[Input Motion Sensor]
+        G[Input Proximity Sensor]
+        H[Input Microphone]
+        I[Input Camera]
+        J[Input GPS Module]
+        K[Input Accelerometer]
+        L[Input Gyroscope]
+        M[Input Magnetometer]
+        N[Input Pressure Sensor]
+        O[Input Touch Sensor]
+        P[Input Button]
+        Q[Input Switch]
+        R[Input Potentiometer]
+        S[Input Encoder]
+        T[Input RFID Reader]
+        U[Input Barcode Scanner]
+        V[Input Biometric Sensor]
+        W[Input Gas Sensor]
+        X[Input Smoke Sensor]
+        Y[Input Water Sensor]
+        Z[Input Soil Sensor]
+    end
+    subgraph Output [Actuators]
+        AA[Output LED]
+        AB[Output Buzzer]
+        AC[Output Speaker]
+        AD[Output Display]
+        AE[Output Motor]
+        AF[Output Servo]
+        AG[Output Relay]
+        AH[Output Solenoid]
+        AI[Output Valve]
+        AJ[Output Pump]
+        AK[Output Fan]
+    end
+
+    B <--> | UART | Input
+    B <--> | UART | Output
+```
 
 
 ### Requirements
