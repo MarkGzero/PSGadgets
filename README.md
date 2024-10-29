@@ -31,47 +31,22 @@ flowchart LR
     A <--> B
     
     subgraph Input [Sensors]
-        C[Input Temperature Sensor]
-        D[Input Humidity Sensor]
-        E[Input Light Sensor]
-        F[Input Motion Sensor]
-        G[Input Proximity Sensor]
-        H[Input Microphone]
-        I[Input Camera]
-        J[Input GPS Module]
-        K[Input Accelerometer]
-        L[Input Gyroscope]
-        M[Input Magnetometer]
-        N[Input Pressure Sensor]
-        O[Input Touch Sensor]
-        P[Input Button]
-        Q[Input Switch]
-        R[Input Potentiometer]
-        S[Input Encoder]
-        T[Input RFID Reader]
-        U[Input Barcode Scanner]
-        V[Input Biometric Sensor]
-        W[Input Gas Sensor]
-        X[Input Smoke Sensor]
-        Y[Input Water Sensor]
-        Z[Input Soil Sensor]
+        input1[Sensors]
+        input2[Buttons]
+        input3[Switches]
+        input4[Events]
     end
     subgraph Output [Actuators]
-        AA[Output LED]
-        AB[Output Buzzer]
-        AC[Output Speaker]
-        AD[Output Display]
-        AE[Output Motor]
-        AF[Output Servo]
-        AG[Output Relay]
-        AH[Output Solenoid]
-        AI[Output Valve]
-        AJ[Output Pump]
-        AK[Output Fan]
+        output1[Motors]
+        output2[Displays]
+        output3[LEDs]
+        output4[Relays]
     end
 
-    B <--> | UART | Input
-    B <--> | UART | Output
+    B <-...-> |Wireless | Input
+    B <--> |Wired| Input
+    B <--> |Wired | Output
+    B <-...-> |Wireless | Output
 ```
 
 
