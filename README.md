@@ -6,13 +6,11 @@
 
 ## Project Overview
 
-This project is a proof of concept to demonstrate how to use a FTDI FT232H board to communicate with an ESP32 (ESP32-S3 pictured) board.  
+This project requires knowledge of `PowerShell`, `MicroPython`, and a bit of `C#` programming languages.  
 
-This project requires knowledge of `PowerShell`, `MicroPython`, and `C#` programming languages.  
+This project is a proof of concept to demonstrate how to use PowerShell with a FTDI FT232H board to interface with various IoT devices, sensors, outputs, and accessories. 
 
-The FT232H board will be connected to a PC via USB and the ESP32 board will be connected to the FT232H board via serial UART.  
-
-The ESP32 board will be used as an accessory board to handle WiFi/ESP-Now wireless communication with other ESP32 IoT devices.
+Since the FT232H chip does not natively support wireless communication, we'll use an ESP32 board as an accessory board to handle WiFi/ESP-Now communication with peripheral modules and devices.
 
 ## Objective
 
@@ -31,40 +29,34 @@ flowchart LR
     A <--> B
     
     subgraph Input [Sensors]
-        input1[Sensors]
-        input2[Buttons]
-        input3[Switches]
-        input4[Events]
+        input1[Inputs]
     end
     subgraph Output [Actuators]
-        output1[Motors]
-        output2[Displays]
-        output3[LEDs]
-        output4[Relays]
+        output1[Outputs]
+    end
+        subgraph Combo [Devices]
+        combo1[Input+Output]
     end
 
     B <-...-> |Wireless | Input
-    B <--> |Wired| Input
-    B <--> |Wired | Output
     B <-...-> |Wireless | Output
+    B <-...-> |Wireless | Combo
 ```
 
 
 ### Requirements
 ------------------
 
-### PowerShell v7
-
-PowerShellv7 is required because the .NET libraries relevant to this project are not compatible with PowerShellv5.1, despite how much I want this project to be backwards compatible.  
-
 #### Software
 
 | Software | Description | 
 | --- | --- |
-| PowerShell v7 | PowerShell v7 is required because the .NET libraries relevant to this project are not compatible with PowerShell v5.1. | 
+| PowerShell | PowerShell v7 is required because the .NET libraries relevant to this project are not compatible with PowerShell v5.1. | 
 | VS Code | VS Code is a lightweight code editor that is ideal for developing PowerShell scripts. |
 | Visual Studio | Visual Studio is a powerful IDE that is ideal for developing .NET applications. |
-| .NET8 | .NET 5.0 or later is required to run the .NET libraries for the FTDI FT232H board. We'll be using .NET 8.0 because it's the latest and greatest. |
+| [Thonny](https://github.com/thonny/thonny) | Thonny is a Python IDE that is ideal for developing MicroPython scripts. Comes with built in MicroPython esptool-based installer. |
+| [esptool](https://github.com/espressif/esptool) | esptool is a Python-based tool that is used to flash MicroPython firmware to ESP32 boards. |
+| .NET SDK | .NET 6.0 or later is required to run the .NET libraries for the FTDI FT232H board. We'll be using .NET 8.0 because it's the latest and greatest. |
 
 Getting latest version of the required software is easy with the Windows Package Manager `winget`.  
 
@@ -76,7 +68,22 @@ winget install Microsoft.VisualStudioCode
 winget install Microsoft.VisualStudio.2022.Community
 winget install Microsoft.DotNet.SDK.8
 ```
+
+
 --------------- 
+
+#### .NET Libraries
+
+In addition to the .NET SDK, the following .NET libraries are required to communicate with the FTDI FT232H board and the ESP32 board.
+
+Iot.Device.Bindings + dependencies   
+https://www.nuget.org/packages/Iot.Device.Bindings/#readme-body-tab
+
+
+System.Device.Gpio + dependencies  
+https://www.nuget.org/packages/System.Device.Gpio/#readme-body-tab
+
+-----------------
 
 #### Hardware
 
