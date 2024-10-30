@@ -56,11 +56,10 @@ flowchart LR
 | Visual Studio | Visual Studio is a powerful IDE that is ideal for developing .NET applications. |
 | [Thonny](https://github.com/thonny/thonny) | Thonny is a Python IDE that is ideal for developing MicroPython scripts. Comes with built in MicroPython esptool-based installer. |
 | [esptool](https://github.com/espressif/esptool) | esptool is a Python-based tool that is used to flash MicroPython firmware to ESP32 boards. |
+| [FT_Prog](https://www.ftdichip.com/Support/Utilities.htm) | FT_Prog is a utility that is used to configure FTDI devices, such as the FT232H board. |
 | .NET SDK | .NET 6.0 or later is required to run the .NET libraries for the FTDI FT232H board. We'll be using .NET 8.0 because it's the latest and greatest. |
 
-Getting latest version of the required software is easy with the Windows Package Manager `winget`.  
-
-Here are the commands to install the required software:
+use winget to install the following software
 
 ```PowerShell
 winget install Microsoft.PowerShell
@@ -69,6 +68,14 @@ winget install Microsoft.VisualStudio.2022.Community
 winget install Microsoft.DotNet.SDK.8
 ```
 
+Thonny and esptool will need to be installed separately, for example using pip.
+
+```PowerShell
+pip install thonny
+pip install esptool
+```
+
+FT_Prog is a Windows-only utility that is used to configure FTDI devices, such as the FT232H board.  It's not available via winget or pip.  You'll need to download it from the FTDI website. https://ftdichip.com/utilities/
 
 --------------- 
 
@@ -76,12 +83,10 @@ winget install Microsoft.DotNet.SDK.8
 
 In addition to the .NET SDK, the following .NET libraries are required to communicate with the FTDI FT232H board and the ESP32 board.
 
-Iot.Device.Bindings + dependencies   
-https://www.nuget.org/packages/Iot.Device.Bindings/#readme-body-tab
-
-
-System.Device.Gpio + dependencies  
-https://www.nuget.org/packages/System.Device.Gpio/#readme-body-tab
+| Library | Description |
+| --- | --- |
+| [Iot.Device.Bindings](https://www.nuget.org/packages/Iot.Device.Bindings) | Iot.Device.Bindings is a .NET library that provides device bindings for a variety of IoT hardware, including sensors, displays, and peripherals. |
+| [System.Device.Gpio](https://www.nuget.org/packages/System.Device.Gpio) | System.Device.Gpio is a .NET library that provides GPIO, SPI, and I2C support for direct hardware communication. |
 
 -----------------
 
