@@ -3,41 +3,34 @@
 ## Table of Contents
 
 
-## Introduction: FT_Prog Utility
+## Problem
 
-FTDI's FT_Prog allows custom device string descriptions to be easily programmed into the EEPROM of an FT232 device. 
+With FT232H chips in default configuration, we can really only meaningfully differentiate between devices by the serial number.
 
-The EEPROM is the small memory chip on the FT232 device that stores the device's configuration settings. The EEPROM can be programmed using the FT_Prog utility, which is available from the FTDI website.
+![alt text](image-13.png)
+
+This makes it challenging to identify and interact with PSGadget devices using a PowerShell script without hardcoding the serial number of each device.
+
+## FT_Prog Utility
 
 ![alt text](image.png)
 
-```
-USB String Descriptors:
-Manufacturer:
-The manufacturer string, default is 'FTDI'.
+Fortunately, FTDI's FT_Prog allows device string descriptions and serial number prefixes customization. We can then update the chip EEPROM (Electrically Erasable Programmable Read-Only Memory) with the new values.
 
-Product Description:
-The product description, default is 'USB <-> Serial Cable'.
+⚠️Note: Product Description + Manufacturer + Serial Number cannot be more than 43 characters.
 
-Serial Number:
-The serial number to be programmed into the EEPROM. If the serial number text box is left blank or Auto Generate Serial Number is checked, a unique serial number will be generated for each device. You can specify the first two characters of the generated serial number in the prefix box. Max number of characters is 16.
-
-Note:
-Product Description + Manufacturer + Serial Number cannot be more than 43 characters.
-```
-
-By carefully planning out the device string descriptions and serial number prefixes, we can categorize FT232-based devices in a way that enables auto-detection and interaction with PSGadget devices.
+By categorizing FT232-based PSGadget devices using custom device string descriptions and serial number prefixes, it's possible to automatically differentiate and interact with PSGadget devices in a PowerShell script.
 
 For example, the following table shows a list of device string descriptions and serial number prefixes that could be used to categorize PSGadget devices:
 
 
-Manufacturer: FTDI-GO  
-Serial Number Enabled: True  
-Auto Generate Serial Number: True  
+_Manufacturer: FTDI_  
+_Serial Number Enabled: True_  
+_Auto Generate Serial Number: True_
 
 | String Description | Serial Number Prefix | Category |
 |--------------------|----------------------|----------|
-| USB <-> Serial Cable |  | USB <-> Serial Cable (Default) |
+| USB <-> Serial Cable |  |(Default) |
 | PsGadget-Controller | CT | PSGadget Controller Device |
 | PsGadget-Display64 | DS | PSGadget Display Device SSD1306 128x64 |
 | PsGadget-Display32 | DS | PSGadget Display Device SSD1306 128x32 |
@@ -70,6 +63,8 @@ To program the EEPROM of an FT232 device, follow these steps:
 
 5. Click USB String Descriptors from the Device Tree on the left side of the FT_Prog utility.
 
+![alt text](image-11.png)
+
 6. In the Property and Value section, enter the desired device string description and serial number prefix. Here we are setting the device string description to "PsGadget-Display64" and the serial number prefix to "DS".
 
 ![alt text](image-5.png)
@@ -94,9 +89,11 @@ Comparing the new hexadecimal values with the previous values, we can see that t
 
 ## Testing in PowerShell7
 
+We should now be able to detect the FT232 device with the custom device string description and serial number prefix in PowerShell7.
+
 ```powershell
 # Load the required assemblies
-Add-type -AssemblyName System.Drawing # Required for SkiaSharp
+Add-type -AssemblyName System.Drawing # Required for SkiaSharp graphics library
 
 # Path to the PSGadgets library
 $packagespath = "G:\MarkGzero\PSGadgets\lib" # 
