@@ -23,7 +23,6 @@ By categorizing FT232-based PSGadget devices using custom device string descript
 
 For example, the following table shows a list of device string descriptions and serial number prefixes that could be used to categorize PSGadget devices:
 
-
 _Manufacturer: FTDI_  
 _Serial Number Enabled: True_  
 _Auto Generate Serial Number: True_
@@ -139,6 +138,6 @@ In case you want to erase the EEPROM to default, you can use the FT_Prog utility
 
 ## Summary
 
-FTDI's FT_Prog utility allows custom device string descriptions to be programmed into the EEPROM of an FT232 device.
+FTDI's FT_Prog utility allows custom device string descriptions and serial number prefixes to be programmed into the EEPROM of FT232 devices.
 
-By categorizing FT232-based PSGadget devices using custom device string descriptions and serial number prefixes, we can easily identify and interact with PSGadget devices in PowerShell7.
+By categorizing FT232-based PSGadget devices using custom device string descriptions and serial number prefixes, it's possible to automatically differentiate and interact with PSGadget devices in a PowerShell script.  
