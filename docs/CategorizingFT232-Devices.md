@@ -1,4 +1,4 @@
-# Categorizing FT232 Devices
+# Categorizing FT232-based PSGadgets
 
 FTDI FT_Prog allows custom device string descriptions to be programmed into the EEPROM of an FT232 device. 
 
