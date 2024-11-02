@@ -1,6 +1,11 @@
 # Categorizing FT232-based PSGadgets
 
-FTDI FT_Prog allows custom device string descriptions to be programmed into the EEPROM of an FT232 device. 
+## Table of Contents
+
+
+## Introduction: FT_Prog Utility
+
+FTDI's FT_Prog allows custom device string descriptions to be easily programmed into the EEPROM of an FT232 device. 
 
 The EEPROM is the small memory chip on the FT232 device that stores the device's configuration settings. The EEPROM can be programmed using the FT_Prog utility, which is available from the FTDI website.
 
