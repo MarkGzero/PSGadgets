@@ -1,21 +1,20 @@
 # Categorizing FT232-based PSGadgets
 
-## Table of Contents
+## Introduction
 
-
-## Problem
-
-With FT232H chips in default configuration, we can really only meaningfully differentiate between devices by the serial number.
+We have a small problem. With FT232H chips in default configuration, we can really only meaningfully differentiate between devices by the serial number. This makes it challenging to identify and interact with PSGadget devices using a PowerShell script without hardcoding the serial number of each device. 
 
 ![alt text](image-13.png)
 
-This makes it challenging to identify and interact with PSGadget devices using a PowerShell script without hardcoding the serial number of each device.
+Instead we want something like this:
+
+![alt text](image-15.png)
 
 ## FT_Prog Utility
 
-![alt text](image.png)
-
 Fortunately, FTDI's FT_Prog allows device string descriptions and serial number prefixes customization. We can then update the chip EEPROM (Electrically Erasable Programmable Read-Only Memory) with the new values.
+
+![alt text](image-14.png)
 
 ⚠️Note: Product Description + Manufacturer + Serial Number cannot be more than 43 characters.
 
@@ -86,7 +85,7 @@ Comparing the new hexadecimal values with the previous values, we can see that t
 
 ![alt text](image-8.png)
 
-## Testing in PowerShell7
+## Example (PowerShell7)
 
 We should now be able to detect the FT232 device with the custom device string description and serial number prefix in PowerShell7.
 
@@ -112,10 +111,7 @@ $devices = [Iot.Device.FtCommon.FtCommon]::GetDevices()
 
 If successful, you should see the device string description and serial number prefix in the output.
 
-![alt text](image-9.png)
-
-
-Note: May need to unplug and plug in the device again to see the changes.
+:information_source: May need to disconnect and reconnect the device to see the changes.
 
 We can also use the `Get-PNPDevice` cmdlet to get the device information.
 
@@ -135,6 +131,23 @@ If the Virtual COM Port is enabled, you can also see the device serial prefix in
 ## Erasing the EEPROM to default
 
 In case you want to erase the EEPROM to default, you can use the FT_Prog utility to erase the EEPROM and restore the default settings.
+
+## Removing FTDI PNP Devices
+
+Programming the EEPROM with the custom serial number prefix will create a new PNP device. PNP devices can get cluttered over time. We may need to remove unwanted devices to keep the list clean.
+
+We can use the `pnputil` command-line utility to remove unwanted devices. Admin privileges are required to remove devices.
+
+
+```powershell
+# Get devices with the manufacturer 'FTDI' whose status is not 'OK' and remove them using pnputil
+Get-PnpDevice | 
+    Where-Object { $_.Manufacturer -match 'FTDI' -and $_.Status -ne 'OK' } | 
+    ForEach-Object {
+        $instanceId = $_.PNPDeviceID  # Ensure we are using the PNPDeviceID property
+        pnputil.exe /remove-device "$instanceId"
+    }
+```
 
 ## Summary
 

@@ -1,0 +1,1 @@
+{"datetime":"20241109T123924, "accessory":{"macraw":"b'4\xb7\xdaY\xd6 '","mac":"34:b7:da:59:d6:20","type":"Generic ESP32S3 module with ESP32S3","cputemp":46}, "transmitter":{"mac":"34:b7:da:59:d6:20","message":"bytearray(b'(2000, 1, 1, 0, 0, 18, 5, 1) - Temperature: 28 - Random: 3070681290')"}}
