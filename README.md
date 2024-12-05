@@ -1,3 +1,6 @@
+# DISCLAIMER: I HAVE NO IDEA WHAT IM DOING. Please dont expect any kind of structure to this... I'm learning things for the first time as I mess with this stuff. I guess check back every few months or so... 
+-------------------------
+
 # PowerShell Gadgets
 
 ## Project Overview
