@@ -64,6 +64,6 @@ while(1){
 
 2024OCT23: Initial commit.
 
-2024NOV02: Learned about FT_Prog utility to tag and label FTDI devices. Updated documentation to reflect this new information.
+2024NOV02: Learned about FT_Prog utility to tag and label FTDI devices. Updated documentation to reflect this new information. [CategorizingFT232-Devices.md](./docs/CategorizingFT232-Devices.md)
 
 2025JAN09: Revisited displaying text on an SSD1306 OLED display. Cleaned up the function so its easier to use and lines can be separated by newline character, or automatically wrapping text based on character count. Found that font Lucinda Console works best for this display.
