@@ -160,17 +160,11 @@ function Display-Text {
 
 function Get-MemoryInfo {
     [cmdletbinding()]
-    param (
-    )
-    # Get memory details
+    param ()
     $memory = Get-CimInstance -ClassName Win32_OperatingSystem
-
-    # Calculate values in MB
     $totalMemory = [math]::Round($memory.TotalVisibleMemorySize / 1MB, 2)
     $freeMemory = [math]::Round($memory.FreePhysicalMemory / 1MB, 2)
     $usedMemory = [math]::Round($totalMemory - $freeMemory, 2)
-
-    # Output results as an object for flexibility
     [PSCustomObject]@{
         TotalMemoryMB = $totalMemory
         UsedMemoryMB = $usedMemory

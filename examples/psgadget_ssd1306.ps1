@@ -2,6 +2,7 @@
 param(
     $PackagesPath = "G:\MarkGzero\PSGadgets\lib"
 )
+
 # Get pin from string
 # [Iot.Device.Ft232H.Ft232HDevice]::GetPinNumberFromString("D0")
 # [Iot.Device.Ft232H.Ft232HDevice]::GetPinNumberFromString("D1")
@@ -173,7 +174,7 @@ function DisplayText {
 # Lucida Console
 # DisplayText -displayDevice $ssd -Header "Lucida Console"  -Body "1234567890!@#$%^&* ():ABCDEF_-JgqyIl" -Font "Lucida Console"
 # DisplayText -displayDevice $ssd -Header "Lucida Console" -Body "She sells seashells by the seashore" -Font "Lucida Console"
-DisplayText -displayDevice $ssd -Header "Warning: High CPU Temp" -Body "CPU Temp: 85C" 
+DisplayText -displayDevice $ssd -Header "!!! High CPU Temp" -Body "CPU Temp: 85C`nMax: 90C"
 
 # # Tahoma
 # DisplayText -displayDevice $ssd -Header "Tahoma" -Body "1234567890!@#$%^&* (): ABCDEFHIJ_-WXYZ" -Font "Tahoma"
