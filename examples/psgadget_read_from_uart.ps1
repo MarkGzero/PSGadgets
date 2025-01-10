@@ -84,57 +84,60 @@ function Initialize-PsGadgetSerialPort {
     }
 
     # Attempt to open the serial port
-    Try-OpenSerialPort $serialPort
+    return Try-OpenSerialPort $serialPort
 }
 
 # Function to read data from the serial port with buffering and logging
 function Read-PsGadgetSerialTraffic {
-    [cmdletbinding()]
+    [CmdletBinding()]
     param()
     
+    # Initialize the serial port
     $serialPort = Initialize-PsGadgetSerialPort
     if (-not $serialPort) {
         Write-Host "Failed to initialize the serial port."
         return
     }
 
-    # Initialize buffer for storing partial data
+    # Buffer to store partial data until we get a complete line
     $buffer = ""
 
     try {
         while ($true) {
-            # Check if data is available
+            # Check if data is available to read
             if ($serialPort.BytesToRead -gt 0) {
-                # Read all available data and append to buffer
-                $cdt = Get-Date -Format 'yyyyMMddTHHmmssfff'
+                # Read available data and append to buffer
                 $data = $serialPort.ReadExisting()
                 $buffer += $data
-                write-verbose (Log-Message "Buffer after reading data: '$buffer'")  # Diagnostic output
-                # Process lines if newline character(s) are present
-                while ($buffer -match "^(.*?)(`r?`n)") {
-                    $line = $matches[1].Trim()  # Extract full line, trimming any extra spaces
+
+                # Process lines from buffer if newline characters are present
+                while ($buffer -match "(.*?)(`r?`n)") {
+                    $line = $matches[1].Trim()  # Extract the full line and trim spaces
                     $buffer = $buffer.Substring($matches[0].Length)  # Remove processed line from buffer
-                    # Log and display the complete line
-                    Log-Message "$cdt Received: $line"
-                    Write-Host "$cdt Received: $line"
+                    
+                    # Log the received line with timestamp
+                    $timestamp = Get-Date -Format 'yyyyMMddTHHmmssfff'
+                    Write-Host "$timestamp Received: $line"  # Replace Log-Message with Write-Host
                 }
-            }
-            else {
-                Start-Sleep -Milliseconds 100  # Small delay to reduce CPU usage
+            } else {
+                # If no data, sleep briefly to avoid high CPU usage
+                Start-Sleep -Milliseconds 100
             }
         }
     }
     catch {
-        Log-Message "Error reading from serial port: $($_.Exception.Message)"
+        Write-Host "Error reading from serial port: $($_.Exception.Message)"
     }
     finally {
+        # Ensure the serial port is closed and disposed if open
         if ($serialPort -and $serialPort.IsOpen) {
             $serialPort.Close()
             $serialPort.Dispose()
-            Log-Message "Serial port closed and disposed."
+            Write-Host "Serial port closed and disposed."
         }
     }
 }
+
 
 # Function to write data to the serial port
 function Write-ToSerialPort {
