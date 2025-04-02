@@ -1,14 +1,105 @@
 
 # PowerShell Gadgets (PsGadgets)
 
-## DISCLAIMER: I HAVE NO IDEA WHAT I'M DOING. Please dont expect any kind of structure or logic to this... I'm literally learning IoT and microcontroller stuff for the first time as I mess with this stuff. I guess check back every few months or so if you're interested in seeing how this project evolves.
+## DISCLAIMER: I'm literally learning IoT concepts and tinkering with microcontroller + PowerShell stuff for the first time as I mess with this stuff. Check back every few weeks if you're interested in seeing how this project evolves. 
 
 
 ## Project Overview
 
-This project is a proof of concept to demonstrate how to use PowerShell with a FTDI FT232H board, like the Adafruit FT232H breakout board, to interface with various IoT devices, sensors, outputs, and accessories.  
+This project is an experimental exploration to see how much fun I can have with PowerShell and microcontrollers. 
 
-To expand the capabilities of this project, wireless communication is necessary. Since the FT232H chip does not natively support wireless communication, we'll use an ESP32, like the WaveShare ESP32-S3 board, to handle WiFi and ESP-Now communication with peripheral modules and devices.
+As a system administrator, I often find myself needing to monitor various assets. While there are various monitoring solutions available, I want to see if I can create something that's modular, flexible, and easy enough to use.
+
+## Wireless
+
+To expand the capabilities of this project, wireless communication is necessary. Since the FT232H chip does not natively support wireless communication, we'll use an ESP32, like the WaveShare ESP32-S3 board, to handle WiFi and ESP-Now communication with peripheral modules and devices. 
+
+ESP-Now is particularly useful for low-power, low-latency communication between devices. It allows multiple devices to communicate with each other without the need for a traditional Wi-Fi network, making it ideal for IoT applications. It also support encryption, which is an important feature for secure communication in IoT devices.
+
+## Wiring 
+
+The ESP32 is connected to the FT232H board via UART (Universal Asynchronous Receiver-Transmitter) serial communication pins.
+
+Below is an example of how to connect the FT232H board to the ESP32 board:
+
+
+## Compatibility with PowerShell 5.1 and 7.x
+
+For interesting and useful projects, we'll want control over the FT232H GPIO pins. 
+
+Drivers are available here: https://ftdichip.com/drivers/vcp-drivers/
+
+The FTDI driver allows us to use the FT232H chip in two different modes: Virtual COM Port (VCP) mode and a proprietary D2XX mode.
+
+
+According to the official [FTDI Programming Guide](https://ftdichip.com/wp-content/uploads/2023/09/D2XX_Programmers_Guide.pdf):
+
+> FTDI provides two alternative software interfaces for its range of USB-UART and USB-FIFO ICs. One
+interface provides a Virtual COM Port (VCP) which appears to the system as a legacy COM port. The
+second interface, D2XX, is provided via a proprietary DLL (FTD2XX.DLL). The D2XX interface provides
+special functions that are not available in standard operating system COM port APIs, such as setting the
+device into a different mode or writing data into the device EEPROM.
+
+
+### VCP vs MPSSE
+
+#### Virtual COM Port (VCP) mode
+
+In VCP mode, the FT232H acts like a standard serial port, which is great for sending and receiving data but doesn't allow direct control of the GPIO pins. 
+
+#### MPSSE mode
+
+In MPSSE mode, we can control the GPIO pins directly, but we lose the ability to use the FT232H as a serial port.
+
+## Libraries
+
+So far I've found three official libraries that allows interacting with an Adafruit FT232H breakout board. 
+
+<!-- HTML table with two columns -->
+<table>
+<tr>
+    <th>Library</th>
+    <th>Notes</th> 
+</tr>
+<tr>
+    <td>
+    FTD2XX_NET<br>
+    - ftd2xx_NET.dll
+    </td>
+    <td>
+    - Compatible with PowerShell 5.1 and 7.x. <br>
+    - Requires only a single DLL file. <br>
+    - Allows control of GPIO pins using MPSSE Bit-Bang mode. <br>
+    - WIth FTDI driver, either VCP or MPSSE (for GPIO control) can be used, but not both at the same time. <br>
+    </td>
+</tr>
+
+<tr>
+    <td>.NET IoT libraries <br>
+     - System.Device.Gpio.dll  <br>
+     - IoT.Device.Bindings
+     </td>
+    <td>
+    - Compatible only with .NET 6.0 and later. <br>
+    - Both DLL files must be loaded in the session. <br>
+    - Uses System.Device.GPIO for GPIO control, which includes PWM support. <br>
+    - GPIO can be used even if Virtual COM Port (VCP) is running. <br>
+    - Slightly easier to use than FTD2XX_NET.dll due to project documentation. <br>
+    - Allows use of OLED displays using I2C.
+    </td>
+</tr>
+</table>
+
+### Links 
+
+#### FTDI FTD2XX_NET
+Nuget [FTD2XX_NET](https://www.nuget.org/packages/FTD2XX.Net)  
+Project site: https://ftdichip.com/software-examples/code-examples/csharp-examples/
+
+#### .NET IoT libraries
+Nuget [System.Device.Gpio](https://www.nuget.org/packages/System.Device.Gpio)  
+Nuget [IoT.Device.Bindings](https://www.nuget.org/packages/Iot.Device.Bindings)  
+Project site: https://github.com/dotnet/iot
 
 ## FTDI tagging and labeling
 
@@ -18,14 +109,7 @@ By tagging and labeling FTDI device EEPROM, we can categorize and differentiate 
 
 See also: [CategorizingFT232-Devices.md](./docs/CategorizingFT232-Devices.md)
 
-## Compatibility with PowerShell 5.1 and 7.x
-
-.NET IoT libraries are cross-targeting .NET Standard 2.0, .NET Core 3.1, and .NET 6.0. They can be used from any project targeting .NET Core 2.0 or higher, and also from .NET Framework. (https://github.com/dotnet/iot/tree/main)
-
-Some stuff works in Windows PowerShell 5.1, like the serial port communication. 
-
-However, displaying text on an OLED display requires PowerShell 7.x or later, in my experience.
-
+# Examples
 
 ## Example: PowerShell 5.1; Reading serial port stream from multiple wireless psgadget-io devices 
 

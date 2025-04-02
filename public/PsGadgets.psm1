@@ -1,3 +1,41 @@
+$global:PSGadgetScriptRoot = $PSScriptRoot
+
+function Add-PsGadgetAssemblies {
+    try {
+        Add-Type -AssemblyName System.Drawing
+        # Load necessary assemblies
+        gci "$PSGadgetScriptRoot\..\lib\*.dll" | ForEach-Object {
+            try {
+                ([System.Reflection.Assembly]::LoadFrom($_.FullName)) | out-null
+                Write-Verbose "Loaded assembly: $_"
+            } catch {
+                Write-Verbose "Error loading assembly: $_"
+            }
+        }
+        Write-Verbose "PSGadget assemblies loaded."
+    } catch {
+        Write-Error "Failed to load PSGadget assemblies: $_"
+    }
+}
+
+function Get-PsGadgets {
+
+    # check if environment is ps version 5
+    if ($PSVersionTable.PSVersion.Major -eq 5) {
+        # Load the PSGadget module
+        Write-Output "`r`nPSGadget module is not fully supported in Windows PowerShell (version 5.1). Reading serial port traffic Please use PowerShell version 7 or later.`r`n"
+    } else {
+        Add-PsGadgetAssemblies
+    }
+        
+    $psgadgets = [Iot.Device.FtCommon.FtCommon]::GetDevices()
+    if ($psgadgets.Count -eq 0) {
+        Write-Output "No PSGadget devices found."
+    } else {
+        $psgadgets
+    }
+}
+
 # Logging function
 function Log-Message {
     param (
@@ -6,6 +44,7 @@ function Log-Message {
     )
     $DateTimePrefix = $(Get-Date -Format 'yyyyMMdd_')
     $logFile = "$($env:APPDATA)\local\Logs\$DateTimePrefix$($LogFile)_PsGadgets_SerialPortLog.txt"
+    $global:PSGadgetSerialLogFolder = split-path $logFile
     # Ensure log directory exists and log the message
     $logDir = (Split-Path -Path $LogFile)
     if (-not (Test-Path $logDir)) { New-Item -Path $logDir -ItemType Directory -Force | Out-Null }
@@ -46,7 +85,7 @@ function Initialize-PsGadgetSerialPort {
     $serialPort = [System.IO.Ports.SerialPort]::new($PortNumber, 9600, [System.IO.Ports.Parity]::None, 8, [System.IO.Ports.StopBits]::One)
 
     # Attempt to open the port with retries
-    function OpenSerialPort {
+    function Try-OpenSerialPort {
         param (
             [System.IO.Ports.SerialPort] $serialPort
         )
@@ -85,7 +124,7 @@ function Initialize-PsGadgetSerialPort {
     }
 
     # Attempt to open the serial port
-    return OpenSerialPort $serialPort
+    return Try-OpenSerialPort $serialPort
 }
 
 # Function to read data from the serial port with buffering and logging
@@ -135,9 +174,15 @@ function Read-PsGadgetSerialTraffic {
         if ($serialPort -and $serialPort.IsOpen) {
             $serialPort.Close()
             $serialPort.Dispose()
-            Write-Host "Serial port closed and disposed."
+            $spObj = $serialPort | Out-String
+            Write-Verbose "$spObj"
+            Write-Host "Serial port object closed and disposed."
         }
     }
+}
+
+function Stop-PsGadgetSerialTraffic {
+    # Check if the serial port is open
 }
 
 
@@ -167,4 +212,5 @@ function Write-ToSerialPort {
 }
 
 # Start reading from the serial port
-Read-PsGadgetSerialTraffic
+# Read-PsGadgetSerialTraffic -Verbose
+

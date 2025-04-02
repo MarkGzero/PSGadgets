@@ -1,6 +1,41 @@
 # Load Required Assemblies
 Add-Type -AssemblyName System.Drawing
 
+function Load-PsGadgetAssemblies {
+    try {
+        Add-Type -AssemblyName System.Drawing
+        # Load necessary assemblies
+        gci "G:\MarkGzero\PSGadgets\lib\*.dll" | ForEach-Object {
+            try {
+                ([System.Reflection.Assembly]::LoadFrom($_.FullName)) | Out-Null
+            } catch {
+                Write-Verbose "Error loading assembly: $_"
+            }
+        }
+        Write-Verbose "PSGadget assemblies loaded."
+    } catch {
+        Write-Error "Failed to load PSGadget assemblies: $_"
+    }
+}
+
+function Get-PsGadgets {
+
+    Load-PsGadgetAssemblies
+    # check if environment is ps version 5
+    if ($PSVersionTable.PSVersion.Major -eq 5) {
+        # Load the PSGadget module
+        Write-Output "PSGadget module is not fully supported in Windows PowerShell (version 5.1). Please use PowerShell version 7 or later."
+        return
+    } else {
+        Load-PsGadgetAssemblies
+    }
+        
+    $psgadgets = [Iot.Device.FtCommon.FtCommon]::GetDevices()
+    if ($psgadgets.Count -eq 0) {
+        Write-Output "No PSGadget devices found."
+    }
+}
+
 # Define the Display Logic as a ScriptBlock
 $scriptBlock = {
     [cmdletbinding()]
