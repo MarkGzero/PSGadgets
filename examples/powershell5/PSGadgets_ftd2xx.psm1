@@ -256,7 +256,7 @@ function Set-FtdiDeviceGpioPin {
     }
 
     Write-MpsseCommand -Ftdi $Ftdi -Command $cmd
-    Write-Verbose "Set GPIO → $Pin (Bank: $([string]::Format('{0:X2}', if ($isHighBank) { 0x82 } else { 0x80 })) Direction=$Direction, Value=$Value)"
+    Write-Verbose "Set GPIO → $Pin (Bank: $(if ($isHighBank) { 0x82 } else { 0x80 })) Direction=$Direction, Value=$Value)"
 }
 
 

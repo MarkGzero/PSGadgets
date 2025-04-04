@@ -38,7 +38,7 @@ function Start-FtdiButtonToggleWatcher {
         $status = $ftdi.OpenBySerialNumber($serial)
         Write-Log "Opening device $serial → Status: $status"
         $ftdi.Get
-        $LogPath = $env:APPDATA\local\Logs\
+        $LogPath = "$env:APPDATA\local\Logs\"
 
         if ($status -ne [FTD2XX_NET.FTDI+FT_STATUS]::FT_OK) {
             Write-Log "ERROR: Could not open FTDI device"
