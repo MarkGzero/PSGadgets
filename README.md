@@ -1,5 +1,5 @@
 
-# PowerShell Gadgets (PsGadgets)
+# PowerShell Gadget (PsGadget)
 
 ## DISCLAIMER: I'm literally learning IoT concepts and tinkering with microcontroller + PowerShell stuff for the first time as I mess with this stuff. Check back every few weeks if you're interested in seeing how this project evolves. 
 
@@ -8,7 +8,7 @@
 
 This project is an experimental exploration to see how much fun I can have with PowerShell and microcontrollers. 
 
-As a system administrator, I often find myself needing to monitor various assets. While there are various monitoring solutions available, I want to see if I can create something that's modular, flexible, and easy enough to use.
+As a system administrator, I often find myself needing to monitor multiple assets. While there are various monitoring solutions available, I want to see if I can create something that's modular, flexible, and most importantly, fun.
 
 ## Wireless
 
